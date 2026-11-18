@@ -1,0 +1,12 @@
+{
+  "candidate_classification": "threshold .5; Macro F1 equal mean over classes 0 and 1; log loss from candidate probabilities",
+  "top1": "classifier highest probability per observation; ties distance rank then arc ID; all observations included",
+  "decoded_pointwise": "Viterbi-selected arc versus same weak reference at every observation, including unmatched",
+  "decoder_candidate_metrics": "N/A: decoder does not generate new calibrated candidate probabilities",
+  "continuity": "successful directed feasible pairs / ALL consecutive within-trip observation pairs; unmatched/gaps fail",
+  "continuity_feasibility": "0<dt<=30.0; directed path <= 80.0*dt+150.0 m; jitter 15.0 m",
+  "sequence": "fraction of trips with every weak observation arc correct; not alignment against original .route rows",
+  "timing": "probability inference includes scaler transform; decoder time excludes one-time graph/lattice construction, reported separately",
+  "cv": "same five fixed trip folds; unweighted means; selection CV, not nested evaluation",
+  "labels": "geometric weak labels; agreement is not independently verified map-matching accuracy"
+}

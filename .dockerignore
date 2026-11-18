@@ -1,0 +1,13 @@
+.git
+.gitignore
+.env
+.env.example
+.venv
+**/__pycache__
+**/.pytest_cache
+**/*.py[cod]
+**/*.nb[ci]
+data/jobs
+tests
+docs
+*.zip

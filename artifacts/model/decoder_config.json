@@ -1,0 +1,11 @@
+{
+  "beta_m": 10.044135699395792,
+  "beta_displacement": 0.09169153376074993,
+  "max_speed_mps": 23.200465373876046,
+  "slack_m": 126.72080972988125,
+  "max_gap_s": 30.0,
+  "jitter_m": 15.0,
+  "search_limit_m": 3000.0,
+  "emission": "log clipped positive-class probability",
+  "missing_policy": "unmatched -1; reset on long gaps or all-invalid transitions"
+}

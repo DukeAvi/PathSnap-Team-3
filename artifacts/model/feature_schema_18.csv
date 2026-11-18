@@ -1,0 +1,19 @@
+name,definition
+distance_m,"GPS-to-segment projected distance, metres."
+distance_rank,One-based proximity rank; ties use arc ID.
+heading_difference_deg,"Absolute movement/segment heading difference, degrees; 90 when invalid."
+projection_fraction,"Clipped position along the directed segment, from 0 to 1."
+segment_length_m,"Directed segment length, metres."
+displacement_m,"GPS displacement from preceding retained observation, metres; first=0."
+heading_valid,1 when displacement >=3 m and 0<time gap<=30 s; otherwise 0.
+dt_s,Seconds since preceding retained observation; first=0.
+speed_mps,Displacement divided by positive time gap; first=0.
+distance_to_from_m,"GPS-to-directed-start-node distance, metres."
+distance_to_to_m,"GPS-to-directed-end-node distance, metres."
+from_out_degree,Outgoing nondegenerate directed arc count at candidate start node.
+to_in_degree,Incoming nondegenerate directed arc count at candidate end node.
+from_in_degree,Incoming nondegenerate directed arc count at candidate start node.
+to_out_degree,Outgoing nondegenerate directed arc count at candidate end node.
+candidate_count,Number of generated candidates for this GPS observation; no labels used.
+distance_gap_to_nearest_m,Candidate distance minus minimum candidate distance at the observation.
+acceleration_mps2,"Change in consecutive gap-average speeds divided by current gap; 0 unless both gaps are in (0,30] s."

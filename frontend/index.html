@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#142426">
+  <meta name="description" content="Evaluate PathSnap GPS map matching on frozen demos and local trip uploads.">
+  <title>PathSnap · Offline road maps</title>
+  <link rel="stylesheet" href="/assets/vendor/leaflet.css">
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script defer src="/assets/vendor/leaflet.js"></script>
+  <script type="module" src="/assets/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#workspace">Skip to results</a>
+  <header class="app-header">
+    <a class="brand" href="/"><span class="brand-mark" aria-hidden="true">⌁</span>PathSnap</a>
+    <span class="app-label">Trip evaluator</span>
+    <a class="api-link" href="/docs">API docs <span aria-hidden="true">↗</span></a>
+  </header>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Trip controls">
+      <h2>Run a trip</h2>
+      <div class="source-tabs" aria-label="Trip source">
+        <button id="demo-tab" type="button" aria-controls="demo-form" aria-pressed="true">Bundled demo</button>
+        <button id="upload-tab" type="button" aria-controls="upload-form" aria-pressed="false">Upload trip</button>
+      </div>
+      <form id="demo-form">
+        <label for="demo-trip">Held-out trip</label>
+        <select id="demo-trip" required></select>
+        <button id="run-demo" class="run-button" type="submit" disabled>Run demo</button>
+      </form>
+      <form id="upload-form" enctype="multipart/form-data" hidden>
+        <label for="trip-id">Trip ID</label>
+        <input id="trip-id" name="trip_id" placeholder="e.g. trip-01" pattern="[A-Za-z0-9][A-Za-z0-9_.\-]{0,63}" maxlength="64" required>
+        <label for="track">GPS track <span>.track</span></label>
+        <input id="track" name="track" type="file" required>
+        <label for="nodes">Network nodes <span>.nodes</span></label>
+        <input id="nodes" name="nodes" type="file" required>
+        <label for="arcs">Directed arcs <span>.arcs</span></label>
+        <input id="arcs" name="arcs" type="file" required>
+        <label for="route">Reference route <span>optional</span></label>
+        <input id="route" name="route" type="file">
+        <button class="run-button" type="submit">Run map matching</button>
+      </form>
+      <p class="form-status" id="run-status" role="status"></p>
+      <button id="retry-demo" class="run-button" type="button" hidden>Retry demo</button>
+      <section class="history" aria-labelledby="history-title">
+        <h3 id="history-title">Recent runs</h3>
+        <div id="jobs"></div>
+      </section>
+      <section class="benchmark" aria-labelledby="benchmark-title">
+        <h3 id="benchmark-title">Frozen benchmark</h3>
+        <strong id="benchmark-value">—</strong>
+        <p id="benchmark-note">Held-out weak-reference agreement</p>
+      </section>
+    </aside>
+    <main class="workspace" id="workspace">
+      <div class="page-head">
+        <div><h1 id="result-title">Trip overview</h1><p id="result-subtitle">Choose a demo or upload a GPS track and its road network.</p></div>
+        <nav id="downloads" class="downloads" aria-label="Download results" hidden>
+          <a id="csv-export" download>CSV</a><a id="geojson-export" download>GeoJSON</a><a id="json-export" download>JSON</a>
+        </nav>
+      </div>
+      <div class="stats" aria-label="Result metrics">
+        <div><span>GPS observations</span><strong id="n-observations">—</strong><small id="n-cleaned"></small></div>
+        <div><span>Matched</span><strong id="n-matched">—</strong><small id="n-unmatched"></small></div>
+        <div><span>Weak-reference agreement</span><strong id="agreement">—</strong><small id="agreement-detail"></small></div>
+        <div><span>Route continuity</span><strong id="continuity">—</strong><small id="continuity-detail"></small></div>
+      </div>
+      <section class="card map-card" aria-labelledby="map-title">
+        <div class="card-head">
+          <h2 id="map-title">Trip map</h2>
+          <button id="fit-map" type="button" disabled>Fit to track</button>
+        </div>
+        <div class="map-frame">
+          <div id="map" aria-label="Interactive map of observations and road arcs"></div>
+          <p class="map-message" id="map-message" role="status">Run a trip to see its route.</p>
+        </div>
+        <div class="layers" aria-label="Map layers">
+          <label title="Load street tiles from OpenStreetMap over the internet"><input type="checkbox" id="layer-basemap" disabled>Online street map</label>
+          <label><input type="checkbox" id="layer-network" checked><i class="network"></i>Road network</label>
+          <label><input type="checkbox" id="layer-reference" checked><i class="reference"></i>Reference route</label>
+          <label><input type="checkbox" id="layer-matched" checked><i class="matched"></i>Matched arcs</label>
+          <label><input type="checkbox" id="layer-observations"><i class="gps"></i>GPS points</label>
+          <span id="network-note"></span>
+          <span id="basemap-note" role="status" hidden></span>
+        </div>
+      </section>
+      <section class="card ledger" aria-labelledby="ledger-title">
+        <div class="card-head">
+          <h2 id="ledger-title">Observations</h2>
+          <label for="table-filter">Show <select id="table-filter" disabled>
+            <option value="all">All observations</option><option value="unmatched">Unmatched</option>
+            <option value="disagreement">Reference disagreements</option><option value="events">Decoder events</option>
+          </select></label>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th scope="col">Observation</th><th scope="col">Raw row</th><th scope="col">Time (s)</th>
+              <th scope="col">Candidates</th><th scope="col">Matched arc</th><th scope="col">Reference arc</th><th scope="col">Decoder event</th></tr></thead>
+            <tbody id="observation-rows"></tbody>
+          </table>
+        </div>
+        <div class="pager">
+          <span id="page-status" aria-live="polite">No observations loaded</span>
+          <div><button type="button" id="prev-page" disabled>Previous</button>
+          <button type="button" id="next-page" disabled>Next</button></div>
+        </div>
+        <details id="run-details" hidden><summary>Cleaning, network, and decoder details</summary>
+          <dl id="details-list"></dl>
+        </details>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "test_top1_accuracy": 0.8783924843423799,
+  "correct_observations": 16830,
+  "total_observations": 19160,
+  "target_range": [
+    0.85,
+    0.95
+  ],
+  "target_met": true,
+  "test_candidate_coverage_upper_bound": 0.9974947807933194,
+  "decoder_training_oof_selection_score": 0.797191469820736,
+  "final_emission_fit_seconds": 9.680418170999985,
+  "training_geometry_seconds": 101.85812701199995,
+  "test_geometry_seconds": 9.661973137000018,
+  "total_runtime_seconds": 265.72983239,
+  "labels": "Geometric weak reference labels, not independent ground truth",
+  "test_used_for_selection": false,
+  "decoder_type": "Discriminative XGBoost emissions + directed-network HMM-style Viterbi; no Baum-Welch"
+}

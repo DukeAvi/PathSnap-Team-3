@@ -9,7 +9,7 @@ This repository contains model experiments, preprocessing notebooks, a FastAPI i
 
 | Name | Student ID |
 |---|---|
-| Avrit Sharma | PES2UG24CS124 |
+| Avrit Sharma | PES2UG24CS100 |
 | Aryan Mittal | PES2UG24CS089 |
 | Atharva | PES2UG24CS093 |
 | C.K Gagan Gowda | PES2UG24CS124 |

@@ -4,6 +4,16 @@ PathSnap is a GPS map-matching and route-evaluation project. It processes GPS ob
 
 This repository contains model experiments, preprocessing notebooks, a FastAPI inference backend, a static browser frontend, benchmark artifacts, and bundled demo trips.
 
+
+## Team
+
+| Name | Student ID |
+|---|---|
+| Avrit Sharma | PES2UG24CS124 |
+| Aryan Mittal | PES2UG24CS089 |
+| Atharva | PES2UG24CS093 |
+| C.K Gagan Gowda | PES2UG24CS124 |
+
 ## Demo
 
 The following screenshots show the trip evaluator and its observation-level results.
@@ -15,15 +25,6 @@ The following screenshots show the trip evaluator and its observation-level resu
 ### Observation-level results
 
 ![PathSnap observation table showing candidates, matched road arc, reference arc, and decoder events](assets/demo-observations.png)
-
-## Team
-
-| Name | Student ID |
-|---|---|
-| Avrit Sharma | PES2UG24CS124 |
-| Aryan Mittal | PES2UG24CS089 |
-| Atharva | PES2UG24CS093 |
-| C.K Gagan Gowda | PES2UG24CS124 |
 
 ## Repository Structure
 

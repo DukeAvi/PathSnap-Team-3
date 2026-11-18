@@ -1,0 +1,26 @@
+services:
+  pathsnap:
+    build: .
+    ports:
+      - "127.0.0.1:${PATHSNAP_PORT:-8000}:8000"
+    environment:
+      PATHSNAP_MAX_FILE_BYTES: ${PATHSNAP_MAX_FILE_BYTES:-8388608}
+      PATHSNAP_MAX_TRACK_ROWS: ${PATHSNAP_MAX_TRACK_ROWS:-25000}
+      PATHSNAP_MAX_NODES: ${PATHSNAP_MAX_NODES:-180000}
+      PATHSNAP_MAX_ARCS: ${PATHSNAP_MAX_ARCS:-350000}
+      PATHSNAP_MAX_ROUTE_ROWS: ${PATHSNAP_MAX_ROUTE_ROWS:-50000}
+      PATHSNAP_MAX_SPATIAL_PAIRS: ${PATHSNAP_MAX_SPATIAL_PAIRS:-5000000}
+      PATHSNAP_MAX_ACTIVE_JOBS: ${PATHSNAP_MAX_ACTIVE_JOBS:-4}
+      PATHSNAP_MAX_SAVED_JOBS: ${PATHSNAP_MAX_SAVED_JOBS:-25}
+      PATHSNAP_MAX_DISPLAY_ARCS: ${PATHSNAP_MAX_DISPLAY_ARCS:-10000}
+    volumes:
+      - jobs:/app/data/jobs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health', timeout=3).close()"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    stop_grace_period: 60s
+volumes:
+  jobs:

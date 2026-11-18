@@ -1,1 +1,0 @@
-# PathSnap-Team-3

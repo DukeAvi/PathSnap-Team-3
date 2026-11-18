@@ -1,0 +1,24 @@
+{
+  "emission_parameters": {
+    "objective": "binary:logistic",
+    "eval_metric": "logloss",
+    "n_estimators": 200,
+    "learning_rate": 0.05,
+    "max_depth": 6,
+    "min_child_weight": 10,
+    "reg_lambda": 1.0,
+    "tree_method": "hist",
+    "random_state": 42,
+    "n_jobs": 4,
+    "device": "cpu"
+  },
+  "decoder_parameters": {
+    "beta_m": 10.044135699395792,
+    "beta_displacement": 0.09169153376074993,
+    "max_speed_mps": 23.200465373876046,
+    "slack_m": 126.72080972988125
+  },
+  "training_selection_objective": 0.797191469820736,
+  "decoder_trials": 80,
+  "test_used_for_selection": false
+}

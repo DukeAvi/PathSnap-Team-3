@@ -1,0 +1,3 @@
+/artifacts/** -text
+/data/demo/** -text
+/backend/vendor/** -text
